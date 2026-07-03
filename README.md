@@ -80,15 +80,4 @@ Once launched, open **[http://localhost:8501](http://localhost:8501)** in your w
 
 ---
 
-## 📈 Performance Summary: ATM Options Straddle
-Below are the results for the default strategy (**ATM Straddle** on NIFTY and BANKNIFTY with closest expiry and 1-second rebalancing) ran over the full month of November 2022:
-
-- **Initial Capital**: `1,000,000.00 INR`
-- **Net PnL**: `-5,605.68 INR (-0.56%)`
-- **Max Drawdown**: `-0.56%`
-- **Total Orders Executed**: `32,704` (Whipsaw due to high frequency ATM selection)
-- **Total Fees Paid**: `986.87 INR`
-- **Win Rate (Sells)**: `39.68%`
-- **Execution Time**: `~14.9 seconds` for the entire 21-day month.
-
-Check [STRATEGY_GUIDE.md](file:///home/vivek/test/gitrepo/backtest/STRATEGY_GUIDE.md) to learn how to refine this strategy or construct new ones.
+Check [strategy_guidelines.md](./strategy_guidelines.md) to learn how to refine this strategy or construct new ones.
