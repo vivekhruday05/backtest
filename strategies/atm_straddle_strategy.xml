@@ -1,0 +1,22 @@
+<Strategy name="ATMStraddle" description="ATM Options Straddle Strategy (Long CE + PE) matching closest strike of futures price">
+    <Universe>
+        <Underlier>NIFTY</Underlier>
+        <Underlier>BANKNIFTY</Underlier>
+        <ExpirySelection>closest</ExpirySelection>
+    </Universe>
+    
+    <Execution>
+        <StrikeSelection>closest_to_futures</StrikeSelection>
+        <OptionTypes>
+            <OptionType>CE</OptionType>
+            <OptionType>PE</OptionType>
+        </OptionTypes>
+        <Action>BUY</Action>
+        <MaxPositionPerInstrument>1</MaxPositionPerInstrument>
+    </Execution>
+    
+    <Triggers>
+        <ExitCondition type="strike_change" />
+        <DayEndExit time="15:30:00" />
+    </Triggers>
+</Strategy>

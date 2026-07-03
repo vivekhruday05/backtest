@@ -1,0 +1,62 @@
+We are building a backtesting engine. A robust one, flexible one, modular and follows good design principles. We have one month of data in data/ folder, you can explore.
+
+  In the data/ folder there are folders for each trading date. NSE_20221101 refers to data of 20221101 , NSE_20221102 for 20221102 and so on.
+
+  Each dated folder has two folders, options and futures. We will trade on options using options and futures data.
+
+  In the Options folder there are numerous files. Each file represents data for that day for that instrument. The file name ( without the csv extension is the instrument's name).  The
+  instrument can be broken down into  its underlier , expiry date , strike price and option type. 
+
+  For example:
+
+  | File | Underlier | Expiry Date<br>(Next 6 characters) | Strike Price<br>(Next character till first letter) | Option Type<br>(Last 2 characters) |
+  | :--- | :--- | :--- | :--- | :--- |
+  | NIFTY22110314550PE.csv | NIFTY | 221103 | 14550 | PE |
+  | BANKNIFTY22112443200CE.csv | BANKNIFTY | 221124 | 43200 | CE |
+  | FINNIFTY22110719500CE.csv | FINNIFTY | 221107 | 19500 | CE |
+
+  Each file has 5 columns. Date , Time , Price , Volume , Open Interest
+
+  The futures folder has files like NIFTY-I.csv , NIFTY-II.csv , NIFTY-III.csv and similarly for BANKNIFTY and FINNIFTY. We will only focus on -I.csv
+
+So, the task now is:
+
+  Create a backtest for a Simple Trading Strategy
+
+    What is a backtest : A backtest in a trading strategy is a process to measure performance of the trading strategy. It is typically agnostic to the strategy and only needs the orders as an input. It allows monitoring of pnl across time.
+
+And this would be the strategy:
+
+    We only trade instruments which are expiring the closest to the current date. So for example if we are simulating for 20221101 , for NIFTY we only trade those instruments with files names as NIFTY221103*.csv. 
+
+    The maximum position we take in any one instrument is 1.
+
+    For each date from the start go through the whole day serially.
+
+    At every 1 sec, select the strike closest to the futures price ( mentioned in NIFTY-I.csv or BANKNIFTY-I.csv)
+
+    Select Buy both the CE and PE at the mentioned price.
+
+    Buy them and hold till the futures price changes that you need to change the strike. 
+
+    At that point, sell these instruments and buy the new instruments with the new strike.
+
+    At day end close all the positions
+
+    Repeat this process for the days
+
+    Do this process for both NIFTY and BANKNIFTY
+
+You should generate backtesting results such as mark to market pnl at all times, instruments in which position is held at any time and such details
+
+Try to think out of the box on how you can make this a flexible setup where different strategies can be easily plugged in.
+
+Show some cumulative plots for pnl and other metrics. 
+
+Also try creating a dashboard using streamlit and use the saved files from the backtesting to display some useful things in the dashboard.
+
+The main thing is that this should be strategy agnostic. User should be able to define their own strategies. So, I was thinking maybe give user to write strategies using XML, (where you define the guidelines) and then set parameters or control them using YAML, and one extra thing to add would be a dashboard where they can interact with this underlying backtest engine.
+
+Update the readme with instructions and also add one more markdown file to give good guidelines on how to write strategies.
+
+For python, use myenv (conda activate myenv), that's the env with the packages I usually use.

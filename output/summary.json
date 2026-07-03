@@ -1,0 +1,15 @@
+{
+    "initial_capital": 1000000.0,
+    "final_value": 994394.3208498498,
+    "net_pnl": -5605.6791501501575,
+    "net_return_pct": -0.5605679150150158,
+    "sharpe_ratio": -39.8935108861004,
+    "max_drawdown_pct": -0.5621721411427031,
+    "total_trades": 32704,
+    "buy_orders": 16352,
+    "sell_orders": 16352,
+    "total_fees": 986.865625165,
+    "win_rate_pct": 39.67710371819961,
+    "winning_trades": 6488,
+    "losing_trades": 9864
+}
