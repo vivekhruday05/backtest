@@ -132,10 +132,10 @@ class DataProvider:
         })
         # Reindex to complete 1-second grid
         df_resampled = df_grouped.reindex(self.time_index)
-        # Forward fill prices and OI, and backward fill if there are NaNs at the start
-        df_resampled['price'] = df_resampled['price'].ffill().bfill()
+        # Forward fill prices and OI to prevent look-ahead bias (no backward fill)
+        df_resampled['price'] = df_resampled['price'].ffill()
         df_resampled['volume'] = df_resampled['volume'].fillna(0)
-        df_resampled['oi'] = df_resampled['oi'].ffill().bfill()
+        df_resampled['oi'] = df_resampled['oi'].ffill()
         
         # Keep prices as numpy array for fast index lookup
         return {

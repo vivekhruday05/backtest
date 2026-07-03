@@ -1,15 +1,15 @@
 {
-    "initial_capital": 1000000.0,
-    "final_value": 994394.3208498498,
-    "net_pnl": -5605.6791501501575,
-    "net_return_pct": -0.5605679150150158,
-    "sharpe_ratio": -39.8935108861004,
-    "max_drawdown_pct": -0.5621721411427031,
-    "total_trades": 32704,
-    "buy_orders": 16352,
-    "sell_orders": 16352,
-    "total_fees": 986.865625165,
-    "win_rate_pct": 39.67710371819961,
-    "winning_trades": 6488,
-    "losing_trades": 9864
+    "initial_capital": 500000.0,
+    "final_value": 493534.85640277906,
+    "net_pnl": -6465.143597220944,
+    "net_return_pct": -1.2930287194441887,
+    "sharpe_ratio": -40.16908645332154,
+    "max_drawdown_pct": -1.296186442495168,
+    "total_trades": 32692,
+    "buy_orders": 16346,
+    "sell_orders": 16346,
+    "total_fees": 493.04387722,
+    "win_rate_pct": 37.44647008442432,
+    "winning_trades": 6121,
+    "losing_trades": 10225
 }

@@ -168,6 +168,9 @@ class XMLStrategy(BaseStrategy):
                     underlier
                 )
                 fut_price = fut_data['prices'][ts_idx]
+                import numpy as np
+                if np.isnan(fut_price):
+                    raise ValueError("Futures price is NaN")
             except Exception:
                 continue
                 
@@ -212,11 +215,14 @@ class XMLStrategy(BaseStrategy):
             try:
                 opt_data = data_provider.load_option_data(filepath, cache_key)
                 price = opt_data['prices'][ts_idx]
+                import numpy as np
+                if np.isnan(price):
+                    raise ValueError("Price is NaN")
                 symbol = os.path.basename(filepath).replace('.csv', '')
                 symbols_to_buy[otype] = symbol
                 prices_to_buy[symbol] = price
             except Exception:
-                return # Error reading file, abort entry
+                return # Error reading file or NaN price, abort entry
                 
         # Execute BUY orders
         for otype, symbol in symbols_to_buy.items():
@@ -254,9 +260,12 @@ class XMLStrategy(BaseStrategy):
             try:
                 opt_data = data_provider.load_option_data(filepath, cache_key)
                 price = opt_data['prices'][ts_idx]
+                import numpy as np
+                if np.isnan(price):
+                    raise ValueError("Price is NaN")
             except Exception:
-                # If file read fails, use the last average entry price as emergency exit
-                price = portfolio.entry_prices.get(symbol, 0.0)
+                # Fallback to last known price from previous second, or entry price
+                price = portfolio.last_known_prices.get(symbol, portfolio.entry_prices.get(symbol, 0.0))
                 
             qty = self.held_symbols[underlier][symbol]
             portfolio.execute_order(

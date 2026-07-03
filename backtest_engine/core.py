@@ -81,14 +81,13 @@ class BacktestEngine:
                 # Collect current prices of held positions to calculate MtM
                 current_prices = {}
                 for symbol in self.portfolio.positions.keys():
-                    # Look up path for the symbol in the parsed options mapping
-                    # To do this quickly, we lookup underlier by name matching
-                    # The symbol contains underlier, expiry, strike, type
-                    underlier = 'NIFTY' if 'NIFTY' in symbol and 'BANKNIFTY' not in symbol and 'FINNIFTY' not in symbol else ('BANKNIFTY' if 'BANKNIFTY' in symbol else 'FINNIFTY')
-                    expiry = strategy.expiry_strs.get(underlier)
-                    strike = strategy.held_strike.get(underlier)
-                    # Get otype
-                    otype = symbol[-2:]
+                    parsed = self.data_provider._parse_filename(symbol)
+                    if not parsed:
+                        continue
+                    underlier = parsed['underlier']
+                    expiry = parsed['expiry']
+                    strike = parsed['strike']
+                    otype = parsed['option_type']
                     key = (underlier, expiry, strike, otype)
                     filepath = strategy.opt_files_map.get(underlier, {}).get(key)
                     
@@ -96,10 +95,16 @@ class BacktestEngine:
                         cache_key = (date_str, 'option', os.path.basename(filepath))
                         try:
                             opt_data = self.data_provider.load_option_data(filepath, cache_key)
-                            current_prices[symbol] = opt_data['prices'][ts_idx]
+                            price = opt_data['prices'][ts_idx]
+                            # Check for NaN price (e.g. from ffill only with no trades yet)
+                            if np.isnan(price):
+                                raise ValueError("Price is NaN")
+                            current_prices[symbol] = price
+                            self.portfolio.last_known_prices[symbol] = price
                         except Exception:
-                            # Fallback to entry price if load fails
-                            current_prices[symbol] = self.portfolio.entry_prices.get(symbol, 0.0)
+                            # Fallback to last known price from previous second, or entry price
+                            price = self.portfolio.last_known_prices.get(symbol, self.portfolio.entry_prices.get(symbol, 0.0))
+                            current_prices[symbol] = price
                             
                 portfolio_value = self.portfolio.get_portfolio_value(current_prices)
                 pnl = portfolio_value - self.initial_capital

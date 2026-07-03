@@ -14,6 +14,7 @@ class PortfolioTracker:
         
         self.trades_history = []  # list of trade logs
         self.daily_pnl = {}       # date_str -> daily net pnl
+        self.last_known_prices = {} # symbol -> last known price (prevents drawdown flattening during data gaps)
         
     def execute_order(self, symbol, timestamp, price, quantity, action, underlier):
         """
@@ -28,6 +29,9 @@ class PortfolioTracker:
         slip_rate = self.slippage_pct
         
         if action == 'BUY':
+            # BUY order: either long entry or short cover.
+            # Slippage must ALWAYS act as a penalty: we buy at a higher price (1.0 + slip_rate)
+            # regardless of whether we are opening a long or closing a short.
             execution_price = price * (1.0 + slip_rate)
             gross_value = execution_price * quantity
             fee = gross_value * fee_rate
@@ -49,6 +53,7 @@ class PortfolioTracker:
                 self.entry_fees[symbol] = prev_fees + fee
                 
             self.positions[symbol] = new_qty
+            self.last_known_prices[symbol] = execution_price
             
             trade_log = {
                 'timestamp': timestamp,
@@ -73,6 +78,9 @@ class PortfolioTracker:
                 if quantity == 0:
                     return
             
+            # SELL order: either long exit or short entry.
+            # Slippage must ALWAYS act as a penalty: we sell at a lower price (1.0 - slip_rate)
+            # regardless of whether we are closing a long or opening a short.
             execution_price = price * (1.0 - slip_rate)
             gross_value = execution_price * quantity
             fee = gross_value * fee_rate
@@ -92,6 +100,8 @@ class PortfolioTracker:
                 del self.positions[symbol]
                 del self.entry_prices[symbol]
                 del self.entry_fees[symbol]
+                if symbol in self.last_known_prices:
+                    del self.last_known_prices[symbol]
             else:
                 self.positions[symbol] = new_qty
                 # Reduce entry fees pool
@@ -129,3 +139,4 @@ class PortfolioTracker:
         self.positions.clear()
         self.entry_prices.clear()
         self.entry_fees.clear()
+        self.last_known_prices.clear()

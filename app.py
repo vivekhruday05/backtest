@@ -178,7 +178,7 @@ if run_button and selected_strategy_file:
 
 # Main Panel layout
 st.title("Backtest Dashboard")
-st.markdown("A robust, strategy-agnostic engine validating modular logic with microsecond resolution.")
+st.markdown("Strategy-agnostic backtesting results and analytics. Use the sidebar to configure and run new backtests.")
 
 summary = load_summary()
 df_hist = load_portfolio_history()

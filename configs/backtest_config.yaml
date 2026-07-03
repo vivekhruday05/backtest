@@ -1,17 +1,10 @@
-# Backtesting Simulation Configuration
-
-# Paths
-data_dir: "data"
-output_dir: "output"
-
-# Simulation parameters
+data_dir: data
+output_dir: output
 simulation:
-  start_date: "20221101"
-  end_date: "20221130"
-  initial_capital: 1000000.0  # 1,000,000 INR
-  slippage_pct: 0.0005        # 0.05% execution slippage (approx 5 bps)
-  transaction_fee_pct: 0.0002 # 0.02% brokerage, taxes, exchange charges
-
-# Strategy Configuration
+  end_date: '20221130'
+  initial_capital: 500000.0
+  slippage_pct: 0.0008
+  start_date: '20221101'
+  transaction_fee_pct: 0.0001
 strategy:
-  xml_path: "strategies/atm_straddle_strategy.xml"
+  xml_path: strategies/atm_straddle_strategy.xml
