@@ -54,9 +54,9 @@ graph TD
 ## 🚀 Getting Started
 
 ### 1. Environment Setup
-The project uses the preconfigured Conda environment `myenv`. Activate it:
+Install the required package dependencies:
 ```bash
-conda activate myenv
+pip install -r requirements.txt
 ```
 
 ### 2. Running a Backtest via CLI
