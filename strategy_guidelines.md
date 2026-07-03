@@ -1,6 +1,6 @@
 # Developer & Strategy Writing Guide (XML + YAML)
 
-The Antigravity backtesting engine is designed to be fully **strategy-agnostic** and **pluggable**. It accomplishes this by separating:
+This backtesting engine is designed to be fully **strategy-agnostic** and **pluggable**. It accomplishes this by separating:
 1. **Simulation parameters** (capital, slippage, fees, data paths) -> Controlled via **YAML** configuration.
 2. **Trading rules and logic** (underliers, expiries, strikes, actions) -> Controlled via **XML** strategy sheets.
 

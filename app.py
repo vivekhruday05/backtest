@@ -12,8 +12,7 @@ from backtest_engine.strategy import XMLStrategy
 
 # Set page layout and aesthetics
 st.set_page_config(
-    page_title="Antigravity Backtesting Suite",
-    page_icon="⚡",
+    page_title="Backtest Dashboard",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -178,7 +177,7 @@ if run_button and selected_strategy_file:
             st.sidebar.code(traceback.format_exc())
 
 # Main Panel layout
-st.title("📈 Antigravity Institutional Options Backtester")
+st.title("Backtest Dashboard")
 st.markdown("A robust, strategy-agnostic engine validating modular logic with microsecond resolution.")
 
 summary = load_summary()
